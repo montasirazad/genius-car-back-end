@@ -19,12 +19,16 @@ async function run() {
         await client.connect();
         const database = client.db("car-allServices");
         const dbCollection = database.collection("service");
-        // create a document to insert
-        const doc = {
-            name:'test',price:100
-        }
-        const result = await dbCollection.insertOne(doc);
-        console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+        // POST Api
+
+        app.post('/service', async (req, res) => {
+            const service = req.body;
+            const result = await dbCollection.insertOne(service);
+            console.log(result);
+            res.json(result)
+        })
+
     } finally {
         // await client.close();
     }
